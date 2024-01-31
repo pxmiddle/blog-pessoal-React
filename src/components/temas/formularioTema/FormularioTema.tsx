@@ -4,6 +4,7 @@ import { AuthContext } from "../../../contexts/AuthContext";
 import Tema from "../../../models/Tema";
 import { atualizar, buscar, cadastrar } from "../../../services/Service";
 import { RotatingLines } from "react-loader-spinner";
+import { ToastAlert } from "../../../utils/ToastAlerts";
 
 function FormularioTema() {
   const [tema, setTema] = useState<Tema>({} as Tema);
@@ -52,14 +53,14 @@ useEffect(() => {
           },
         });
 
-        alert("Tema atualizado com sucesso");
+        ToastAlert("Tema atualizado com sucesso", 'sucesso');
         retornar();
       } catch (error: any) {
         if (error.toString().includes("403")) {
-          alert("O token expirou, favor logar novamente");
+          ToastAlert("O token expirou, favor logar novamente", 'info');
           handleLogout();
         } else {
-          alert("Erro ao atualizar o Tema");
+          ToastAlert("Erro ao atualizar o Tema", 'erro');
         }
       }
     } else {
@@ -70,13 +71,13 @@ useEffect(() => {
           },
         });
 
-        alert("Tema cadastrado com sucesso");
+        ToastAlert("Tema cadastrado com sucesso", 'sucesso');
       } catch (error: any) {
         if (error.toString().includes("403")) {
-          alert("O token expirou, favor logar novamente");
+          ToastAlert("O token expirou, favor logar novamente", 'info');
           handleLogout();
         } else {
-          alert("Erro ao cadastrado o Tema");
+          ToastAlert("Erro ao cadastrado o Tema", 'erro');
         }
       }
     }
@@ -90,7 +91,7 @@ useEffect(() => {
 
   useEffect(() => {
     if (token === "") {
-      alert("Você precisa estar logado");
+      ToastAlert("Você precisa estar logado", 'info');
       navigate("/login");
     }
   }, [token]);
